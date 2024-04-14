@@ -1,0 +1,5 @@
+export { default as HomePage } from './HomePage'
+export { default as CartPage } from './CartPage'
+export { default as DetailProductPage } from './DetailProductPage'
+export { default as PaymentPage } from './PaymentPage'
+export { default as OrderPage } from './OrderPage'
