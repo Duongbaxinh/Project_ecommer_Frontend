@@ -13,24 +13,22 @@ function LayoutContainer({ component: Component, title, isHeader, isFooter, isSi
     const [token, setToken] = useState('')
     useEffect(() => {
         if (isPrivate) {
-            const user = JSON.parse(localStorage.getItem('user'))
-            const access = JSON.parse(localStorage.getItem('accessToken'))
-            console.log('check get token :::: ', access, user)
+            const user = JSON.parse(localStorage.getItem('userInfo'))
+            // const access = JSON.parse(localStorage.getItem('accessToken'))
             if (!user) {
-                return naviagate('/login')
+                return naviagate('/')
             }
             setUser(user)
-            setToken(access)
+            // setToken(access)
         }
     }, [])
-    console.log('checkkkkk----------------kkk', user, token)
     return (
         <Box w='100%' >
             {isHeader && <Header />}
             <Flex padding='0px 80px' w='100%' >
                 {isSidebar && <SideBar />}
                 <div style={{ widows: '100%', flexGrow: '1', marginLeft: isSidebar && BREAK_POINT.sidebarWidth }} >
-                    {isPrivate ? <Component user={user} token={token} /> : <Component />}
+                    {isPrivate ? <Component user={user} token={''} /> : <Component />}
                     {isFooter && <Footer />}
                 </div>
             </Flex>

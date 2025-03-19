@@ -4,9 +4,9 @@ import { Text12 } from '../../../styles/mixin/TextCustom';
 
 function Chip({ leading, title, trailing }) {
     return (
-        <Flex gap='5px'>
+        <Flex gap='5px' placeItems={'center'} >
 
-            {trailing}
+            {leading && leading}
             <Text12 title={title} />
             {trailing && trailing}
         </Flex>

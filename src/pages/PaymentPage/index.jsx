@@ -9,11 +9,11 @@ import { fetchDetailProduct, handleOrder } from '../../service/product.service';
 import { Text12, Text16 } from '../../styles/mixin/TextCustom';
 import { PADDING } from '../../theme/webFoundation';
 import Order from './Order';
+import { productList } from '../../datas/listProduct';
 
 
 
 function PaymentPage({ user }) {
-    console.log('check out ::::: ---- user --- accessToken :::: ', user)
     // lấy product id
     const { id, number } = useParams()
     // thông báo 
@@ -71,7 +71,7 @@ function PaymentPage({ user }) {
                     </Flex>
                     <Text12 title={`${user.address}`} />
                 </BoxRadius>
-                <Order products={[products]} user={user} numberOfProduct={number} onOrder={handleOrderSubmit} />
+                <Order products={[productList[id]]} user={user} numberOfProduct={number} onOrder={handleOrderSubmit} />
             </Flex>
         </Flex>
     );

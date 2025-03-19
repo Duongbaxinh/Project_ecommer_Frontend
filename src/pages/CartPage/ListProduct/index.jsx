@@ -1,6 +1,7 @@
 import { AddIcon, ArrowRightIcon, DeleteIcon, MinusIcon } from '@chakra-ui/icons';
 import { Box, Checkbox, Flex, Grid, GridItem, Image } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import React from 'react';
 import BoxRadius from '../../../components/micro/BoxRadius/BoxRadius';
 import Chip from '../../../components/micro/Chip';
 import IconButtonCustom from '../../../components/micro/IconButtonCustom';
@@ -8,10 +9,9 @@ import Price from '../../../components/micro/Price';
 import TagGenuine from '../../../components/micro/TagGenuine';
 import DELIVERY_ICON from '../../../public/icons/delivery.png';
 import SHOPICON from '../../../public/icons/shop.png';
+import { checkout } from '../../../service/product.service';
 import { Text12, Text16 } from '../../../styles/mixin/TextCustom';
 import { BORDER_RADIUS } from '../../../theme/webFoundation';
-import { useMutation } from '@tanstack/react-query';
-import { checkout } from '../../../service/product.service';
 function ListProduct({ carts, onDeleteCart, load, setLoad }) {
     const { mutate } = useMutation(
         {
@@ -20,14 +20,10 @@ function ListProduct({ carts, onDeleteCart, load, setLoad }) {
         }
     )
     const onUp = (id) => {
-        setTimeout(() => {
-            mutate({ id_cart: id, type: 'up' }, 500)
-        })
-
+        mutate({ id_cart: id, type: 'up' })
     }
     const onDown = (id) => {
         mutate({ id_cart: id, type: 'down' })
-
     }
 
     return (

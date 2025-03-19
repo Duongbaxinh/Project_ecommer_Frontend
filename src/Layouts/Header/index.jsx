@@ -1,6 +1,6 @@
 import { Search2Icon } from '@chakra-ui/icons';
 import { Box, Container, Flex, HStack, IconButton, Image, Input, InputGroup, useDisclosure, InputLeftElement, InputRightAddon, Stack, useTheme } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from '@chakra-ui/react';
 import BoxRadius from '../../components/micro/BoxRadius/BoxRadius';
 import ItemRetangle from '../../components/micro/ItemRetangle';
@@ -15,12 +15,12 @@ import { BOX_SHADOW } from '../../theme/webFoundation';
 import Model from '../../components/fixs/Model';
 const ITEM_LINKS = [
     {
-        path: '#',
-        title: 'Nhập khẩu Hàn'
+        path: '/dashboard',
+        title: 'Create Product'
     },
     {
-        path: '#',
-        title: 'Nhật Âu'
+        path: '/manageproduct',
+        title: 'Manage Product'
     },
     {
         path: '#',
@@ -44,12 +44,24 @@ const TEXT = {
     TIM_KIEM: 'Tìm kiếm',
     PLACEHODER: 'Nhập sản phẩm tìm kiếm'
 }
+
 function Header(props) {
     const theme = useTheme()
     const { isOpen, onOpen, onClose } = useDisclosure()
-
+    const [isLogin, setIsLogin] = useState(false)
+    useEffect(() => {
+        const logined = JSON.parse(localStorage.getItem('Logined'))
+        if (logined) {
+            setIsLogin(logined)
+        }
+    }, [isLogin])
+    const handleLogout = () => {
+        localStorage.setItem('Logined', false)
+        localStorage.setItem('userInfo', JSON.stringify(null))
+        window.location.reload()
+    }
     return (
-        <Container maxW='100%' p='8px 80px'
+        <Container minW='1280px' p='8px 80px'
             backgroundColor={theme.colors.white}
             marginBottom='16px'
         >
@@ -85,7 +97,7 @@ function Header(props) {
                     </Box>
                     <HStack spacing='10px'>
                         {ITEM_LINKS.map(({ path, title }, index) => (
-                            <Link key={index} to={path}>
+                            <Link key={index} href={path}>
                                 <Text14 color={theme.colors.grey[400]}
                                     title={title} />
                             </Link>
@@ -108,36 +120,61 @@ function Header(props) {
                                 onFn={onOpen}
                                 padding='8px'
                                 icon={<Image src={ACCOUNT_ICON} maxW='24px' maxH='24px' />}
-                                title={'Tài khoản'}
+                                title={isLogin ? 'Tài khoản' : 'Log-in'}
                             />
-                            {/* --------------START MODEL ----------------- */}
-                            <Model isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
-                            {/* --------------END MODEL ----------------- */}
-                            {/* PROFILE */}
-                            <Stack
-                                position='absolute'
-                                w='100%'
-                                top='45px'
-                                right='30px'
-                                zIndex='9999'
-                                visibility='hidden'
-                                boxShadow={BOX_SHADOW.shadow01}
-                            >
-                                <BoxRadius padding='7px 0'>
-                                    {PROFILE.map(({ path, title }, index) => (
-                                        <Link to={path} key={index} >
+                            {!isLogin ? (
+                                <Model isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
+                            )
+                                : isOpen && (
+                                    <Stack
+
+                                        tabIndex={'0'}
+                                        // onClick={() => {
+                                        //     setTimeout(() => {
+                                        //         onClose()
+                                        //     }, 200);
+                                        // }}
+                                        position='absolute'
+                                        w='100%'
+                                        borderRadius={'15px'}
+                                        minW={'250px'}
+                                        top='45px'
+                                        right='0px'
+                                        zIndex='9999'
+                                        visibility='visible'
+                                        boxShadow={BOX_SHADOW.shadow01}
+                                    >
+                                        <BoxRadius padding='7px 0'>
+                                            {PROFILE.map(({ path, title }, index) => (
+                                                <Link href={path} key={index} >
+                                                    <Box
+                                                        padding='7px 16px'
+                                                        _hover={{
+                                                            backgroundColor: theme.colors.grey[200],
+                                                        }}
+                                                    >
+                                                        <Text14 title={title} />
+                                                    </Box>
+                                                </Link>
+                                            ))}
                                             <Box
+                                                cursor={'pointer'}
                                                 padding='7px 16px'
                                                 _hover={{
                                                     backgroundColor: theme.colors.grey[200],
                                                 }}
                                             >
-                                                <Text14 title={title} />
+                                                <Text14 title={'Đăng xuất'} onClick={() => handleLogout()} />
                                             </Box>
-                                        </Link>
-                                    ))}
-                                </BoxRadius>
-                            </Stack>
+
+                                        </BoxRadius>
+                                    </Stack>
+                                )
+                            }
+
+
+
+
                         </Box>
                         {/* CART */}
                         <Link href='/cart'>
@@ -151,7 +188,7 @@ function Header(props) {
                             <Text14 color={theme.colors.blue[200]}
                                 textDecoration='underline'
 
-                                title='Giao đến:H. Gio Linh, X. Gio Mỹ, Quảng Trị' />
+                                title='Giao đến:Hddd. Your H, P.Your P , Da Nang' />
                         </Link>
                     </Flex>
                 </Flex>

@@ -1,21 +1,21 @@
+import { AddIcon, MinusIcon } from '@chakra-ui/icons';
+import { Avatar, Box, Divider, Flex, Image, useToast } from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import BoxRadius from '../../../components/micro/BoxRadius/BoxRadius';
+import IconButtonCustom from '../../../components/micro/IconButtonCustom';
+import Price from '../../../components/micro/Price';
 import STARICON from '../../../public/icons/star_icon.png';
 import TAGOFFICE from '../../../public/icons/tag_office.webp';
 import TIKIAVATAR from '../../../public/icons/tiki_avatar.jpg.webp';
-
-import { AddIcon, MinusIcon } from '@chakra-ui/icons';
-import { Avatar, Box, Divider, Flex, Image, Link, useToast } from '@chakra-ui/react';
-import IconButtonCustom from '../../../components/micro/IconButtonCustom';
-import Price from '../../../components/micro/Price';
+import { addToCart, checkout } from '../../../service/product.service';
 import { Text16 } from '../../../styles/mixin/TextCustom';
 import { BORDER_RADIUS } from '../../../theme/webFoundation';
-import { useMutation } from '@tanstack/react-query';
-import { addToCart, checkout } from '../../../service/product.service';
-import { useNavigate } from 'react-router-dom';
-
-function Purcharse({ changePosition, product }) {
+function Purcharse({ changePosition, product, width, height }) {
     const [numberProduct, setNumberProduct] = useState(1)
+    const [totalPrice, setTotalPrice] = useState(() => Number.parseInt(product.product_price))
+    const scroll = height > 90 && width >= 1280;
     const toast = useToast();
     const navigate = useNavigate()
     const checkoutMutation = useMutation(
@@ -39,23 +39,39 @@ function Purcharse({ changePosition, product }) {
         }
     )
     const onUp = () => {
-        checkoutMutation.mutate({ id_product: product.id, data: product, type: 'up' })
+        // checkoutMutation.mutate({ id_product: product.id, data: product, type: 'up' })
+        setTotalPrice(price => price * numberProduct)
         setNumberProduct(() => numberProduct + 1)
     }
 
     const onDown = () => {
         if (numberProduct > 1) {
-            checkoutMutation.mutate({ id_product: product.id, data: product, type: 'dpwn' })
+            // checkoutMutation.mutate({ id_product: product.id, data: product, type: 'dpwn' })
+            setTotalPrice(price => price - Number.parseInt(product.product_price))
             setNumberProduct(() => numberProduct - 1)
         }
     }
     const handleAddToCart = (idProduct) => {
-        alert(numberProduct)
         checkoutMutation2.mutate({ idProduct, quantity_count: numberProduct })
     }
 
+    const handlePurchase = async () => {
+
+        try {
+
+
+            alert("Purchase successful!");
+        } catch (error) {
+            console.error("Error purchasing product:", error);
+            alert("Purchase failed!");
+        }
+    };
     return (
-        <BoxRadius padding='16px' maxW='350px' minW='350px' position={changePosition ? 'fixed' : "absolute"} right='60px' top={changePosition ? '10px' : ''} transition="all 0.3s ease" >
+        <BoxRadius
+            padding='16px'
+            maxW='350px'
+            minW='350px'
+        >
             <Flex flexDir='column' gap='10px'>
                 {/* Tiki trading */}
                 <Flex gap='20px'>
@@ -89,12 +105,17 @@ function Purcharse({ changePosition, product }) {
                 </Flex>
                 {/* end number product */}
                 <Text16 title={'Tạm tính'} fontWeight='500' />
-                <Price product_price={product.product_price * numberProduct} fontWeight='700' />
+
+                <Price product_price={Number.parseInt(product.product_price) * numberProduct} fontWeight='700' />
                 <Flex flexDir='column' gap='8px'>
-                    <IconButtonCustom borderRadius={BORDER_RADIUS.radius8} backgroundColor={"red"} >
-                        <Link href={`/payment/1/${numberProduct}`}><Text16 title={'Mua ngay'} /></Link>
+                    <IconButtonCustom onFc={handlePurchase} borderRadius={BORDER_RADIUS.radius8} backgroundColor={"red"}  >
+
+
+                        <Text16 title={'Mua ngay'} />
+
+
                     </IconButtonCustom>
-                    <IconButtonCustom borderRadius={BORDER_RADIUS.radius8} onFc={() => handleAddToCart(product.id)}>
+                    <IconButtonCustom borderRadius={BORDER_RADIUS.radius8} onFc={() => handleAddToCart(product.product_id)}>
                         <Text16 title={'Thêm vào giỏ hàng'} />
                     </IconButtonCustom>
                 </Flex>

@@ -1,21 +1,33 @@
-import { Box, Flex, HStack, Image } from '@chakra-ui/react';
-import React from 'react';
+import { Box, Divider, Flex, Grid, HStack, Image } from '@chakra-ui/react';
+import React, { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { SwiperSlide } from 'swiper/react';
 import BoxRadius from '../../../components/micro/BoxRadius/BoxRadius';
 import Price from '../../../components/micro/Price';
-import Delivery from '../../../public/icons/delivery.png'
 import TagGenuine from '../../../components/micro/TagGenuine';
+import CardProductFull from '../../../components/middle/CardProductFull';
+import ContainerCarousel from '../../../components/sclup/ContainerCarousel';
+import GroupStart from '../../../components/sclup/GroupStart';
+import Delivery from '../../../public/icons/delivery.png';
 import { Text11, Text12, Text14, Text16 } from '../../../styles/mixin/TextCustom';
 import { COLOR } from '../../../theme/webColor';
 import { POSITION } from '../../../theme/webFoundation';
-import { Link } from 'react-router-dom';
-import ContainerCarousel from '../../../components/sclup/ContainerCarousel';
-import { products } from '../../../datas/listProduct';
-import { SwiperSlide } from 'swiper/react';
-import CardProductFull from '../../../components/middle/CardProductFull';
 
-function DetailProduct({ product }) {
+const infoDetail = {
+    company: 'Công ty TNHH Truyền Thông Giver',
+    launch: new Date().getTime(),
+    type: 'Bìa mềm',
+    numberOfPage: 288,
+    publicer: 'Nhà xuất bản thế giới'
+}
+function DetailProduct({ product, onGetHeight, rateProduct }) {
+    const detailRef = useRef(null)
+    const [isLoading, setIsLoading] = useState(true)
+    const [products, setProducts] = useState([])
+
     return (
-        <Flex {...POSITION.flexColumn()} gap='10px' maxW={'424px'} margin="0 auto">
+
+        <Flex ref={detailRef}  {...POSITION.flexColumn()} gap='10px' minW={'424px'} maxW={'424px'} margin="0 auto">
             <BoxRadius padding='16px'>
                 <Flex flexDir='column' gap='10px'>
                     <Flex>
@@ -27,10 +39,13 @@ function DetailProduct({ product }) {
                     <Text16 title={product.product_name} fontWeight='500' />
                     <Text12 title={`Made in ${product.product_made}`} fontWeight='400' color={COLOR.grey[400]} />
                     <Flex w='100%' justifyContent='space-between' paddingRight='100px'>
-                        <Text11 title={`rate ::: ${product.product_rate}`} />
-                        <Text11 title={`Đã bán ::: ${500}`} />
+                        <Flex placeItems='center' gap='10px'>
+                            <Text11 title={`${rateProduct}`} fontWeight='500' />
+                            <GroupStart numberOfStart={rateProduct} h='10px' w='10px' />
+                        </Flex>
+                        <Text11 title={`Đã bán  ${500}`} />
                     </Flex>
-                    <Price product_price={product.product_price} />
+                    <Price color={COLOR.red[200]} fontWeight='700' fontSize='25px' product_price={product.product_price} />
                 </Flex>
             </BoxRadius >
 
@@ -38,7 +53,7 @@ function DetailProduct({ product }) {
                 <Flex flexDir='column' gap='10px' >
                     <Text16 title={'Thông tin vận chuyển'} fontWeight='500' />
                     <Flex justifyContent='space-between'>
-                        <Text12 title={`Giao đến ${'H.Gio Linh, Xã Gio Mỹ, Quảng Trị'}`} />
+                        <Text12 title={`Giao đến ${':Hddd. Your H, P.Your P , Da Nang'}`} />
                         <Link hrefLang='#'><Text12 title={'Đổi'} /></Link>
                     </Flex>
                     <Box>
@@ -57,13 +72,14 @@ function DetailProduct({ product }) {
 
                     <Box w='100%' >
                         <ContainerCarousel slidesPerView={3} spaceBetween='10px'>
-                            {product.same_product.map(({ product_id, product_name, product_thumbnail, product_genuine, product_price }) => (
+                            {!isLoading && products.filter(productSample => productSample.product_id !== product.product_id).map(({ product_id, product_name, productThumbnail, product_genuine, product_price }) => (
                                 <SwiperSlide key={product_id} >
-                                    <CardProductFull product_genuine={product_genuine}
-                                        product_name={product_name}
-                                        product_thumbnail={product_thumbnail}
-                                        product_price={product_price}
-                                    />
+                                    <Link to={`/detail/${product_id}`}>
+                                        <CardProductFull product_genuine={product_genuine}
+                                            product_name={product_name}
+                                            product_thumbnail={productThumbnail}
+                                            product_price={product_price}
+                                        /></Link>
                                 </SwiperSlide>
                             ))}
                         </ContainerCarousel>
@@ -71,7 +87,27 @@ function DetailProduct({ product }) {
 
                 </Flex>
             </BoxRadius>
+
+            {/* Thông tin chi tiết của sản phẩm */}
+            <BoxRadius padding='16px' w='100%'>
+                <Text16 title={'Thông tin chi tiết'} fontWeight='500' />
+                {infoDetail && Object.keys(infoDetail).map((key, index) => (
+                    <>
+                        <Grid
+                            padding='8px 0'
+                            placeContent='center'
+
+                            width='100%' templateColumns={'repeat(2,1fr)'} key={index}>
+                            <span>{key}</span>
+                            <span>{infoDetail[key]}</span>
+                        </Grid>
+                        <Divider /></>
+                ))}
+
+            </BoxRadius>
         </Flex>
+
+
     );
 }
 

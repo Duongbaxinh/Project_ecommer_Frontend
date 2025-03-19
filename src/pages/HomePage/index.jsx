@@ -1,5 +1,5 @@
 import { Container, Flex, Image, Link } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -7,17 +7,16 @@ import "swiper/css/scrollbar";
 import { SwiperSlide } from 'swiper/react';
 import BoxRadius from '../../components/micro/BoxRadius/BoxRadius';
 import CardProduct from '../../components/middle/CardPoduct';
-import Category from '../../components/middle/Category';
-
-import { useQuery } from '@tanstack/react-query';
 import CardProductFull from '../../components/middle/CardProductFull';
+import Category from '../../components/middle/Category';
 import ContainerCarousel from '../../components/sclup/ContainerCarousel';
 import ListTemplate from '../../components/sclup/ListTemplate';
 import { categoryData, productsTemplate, slideData } from '../../datas';
 import { TEMPLATEBUTTONTITLES } from '../../libs/constants';
-import { fetchAllProduct } from '../../service/product.service';
-import { BORDER_RADIUS, GAP_SPACE, PADDING } from '../../theme/webFoundation';
 
+import { productList } from '../../datas/listProduct';
+import { BORDER_RADIUS, GAP_SPACE, PADDING } from '../../theme/webFoundation';
+import axios from 'axios';
 const TITLE = [
     {
         leading: 'Giá tốt hôm nay',
@@ -30,15 +29,32 @@ const TITLE = [
 ]
 function HomePage(props) {
 
-    const { data, isLoading, isError } = useQuery({ queryKey: 'products', queryFn: () => fetchAllProduct() })
+    // const { data, isLoading, isError } = useQuery({ queryKey: 'products', queryFn: () => fetchAllProduct() })
+    const [isLoading, setIsLoading] = useState(true)
+    const [products, setProducts] = useState([])
+    // Hàm lấy tất cả các sản phẩm
+    const loadProducts = async () => {
+        try {
+            setIsLoading(true)
+            setProducts(productList);
+            setIsLoading(false)
+        } catch (error) {
+            console.error("Error fetching products:", error);
+            setIsLoading(false)
+        }
+    };
+
+    useEffect(() => {
+        loadProducts(); // Gọi hàm loadProducts khi component được render
+    }, []);
     if (isLoading) return <h1>Loading ....</h1>
-    console.log('data - render ::: ', data.data.data)
+    console.log("check list product :::: ", products)
     return (
-        <Container width='100vw' minW='100%' display='flex' flexDirection='column' gap={GAP_SPACE.gap8}>
+        <Container w={`${1280 - 350}px`} margin={0} display='flex' flexDirection='column' gap={GAP_SPACE.gap8}>
             {/* CAROUSEL */}
             <BoxRadius
                 position='relative'
-                w='100%'
+                w={`${1280 - 350}px`}
                 padding='16px'
                 borderRadius={BORDER_RADIUS.radius8}>
                 {/* CAROSEL SLIDER */}
@@ -51,7 +67,7 @@ function HomePage(props) {
                 </ContainerCarousel>
             </BoxRadius>
             {/* CATEGORY */}
-            <BoxRadius padding={PADDING.all16}>
+            <BoxRadius padding={PADDING.all16} w={`${1280 - 350}px`}>
                 <Flex justify='space-evenly'>
                     {categoryData.map(({ id, title, url_img }) => (
                         <Category key={id} title={title} img_url={url_img} />
@@ -59,7 +75,7 @@ function HomePage(props) {
                 </Flex>
             </BoxRadius>
             {/* BEST PRICE */}
-            <BoxRadius >
+            <BoxRadius w={`${1280 - 350}px`}>
                 <ListTemplate time={{ hour: 1, minuts: 30 }}
                     leading={TITLE[0].leading}
                     trailing={TITLE[0].trailing}>
@@ -81,14 +97,14 @@ function HomePage(props) {
                 </ListTemplate>
             </BoxRadius>
             {/* INCOMING  */}
-            <BoxRadius>
+            <BoxRadius w={`${1280 - 350}px`}>
                 <ListTemplate leading={TITLE[1].leading}
                     listButton={TEMPLATEBUTTONTITLES.CHINHHANG}
                 >
                     <ContainerCarousel slidesPerView={6} spaceBetween='10px'>
-                        {data.data.data.map(({ id, product_name, product_thumbnail, product_genuine, product_price }) => (
-                            <SwiperSlide key={id} >
-                                <Link href={`/detail/${id}`}>
+                        {products.map(({ product_id, product_name, product_thumbnail, product_genuine, product_price }) => (
+                            <SwiperSlide key={product_id} >
+                                <Link href={`/detail/${product_id}`}>
                                     <CardProductFull product_genuine={product_genuine}
                                         product_name={product_name}
                                         product_thumbnail={product_thumbnail}

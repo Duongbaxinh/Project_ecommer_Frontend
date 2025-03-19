@@ -9,6 +9,7 @@ import { BORDER_RADIUS } from '../../../theme/webFoundation';
 import { finalPrice, totalDiscount, totalPrice } from '../../../utils/handlePrice';
 
 function Order({ products, user, onOrder, numberOfProduct }) {
+    console.log('check product order ::::: ', products, '----------------', numberOfProduct)
     products[0].quantity = Number(numberOfProduct)
     const [showDetail, setShowDetail] = useState(false)
     return (

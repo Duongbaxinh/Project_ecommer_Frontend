@@ -25,7 +25,6 @@ function CartPage({ user, token }) {
     }
     const products = data.data.flatMap((cart) => cart.product_id)
 
-    console.log('run at here :::: ', products)
     return (
         <Flex gap='20px'>
             <ListProduct carts={data.data} onDeleteCart={handleDeteleCart} load={load} setLoad={setLoad} />

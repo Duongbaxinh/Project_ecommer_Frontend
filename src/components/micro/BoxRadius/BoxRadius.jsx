@@ -9,8 +9,8 @@ function BoxRadius({
     children, ...rest }) {
     return (
         <Box
+            ref={rest.eRef && rest.eRef}
             {...rest}
-
             backgroundColor={backgroundColor}
             borderRadius={borderRadius}
             padding={padding}

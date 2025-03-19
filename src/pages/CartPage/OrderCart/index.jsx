@@ -12,7 +12,6 @@ import { finalPriceCart, totalPriceCart } from '../../../utils/handlePrice';
 import IconButtonCustom from '../../../components/micro/IconButtonCustom';
 
 function OrderCart({ carts, user }) {
-    console.log('chek user kkkk ', user)
     const toast = useToast();
     const navigate = useNavigate()
     const [showDetail, setShowDetail] = useState(false)

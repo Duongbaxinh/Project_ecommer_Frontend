@@ -27,7 +27,7 @@ function OrderPage(props) {
     const orders = data.data;
     return (
         <Box>
-            <Text16 title={'Giỏ Hàng'.toLocaleUpperCase()} />
+            <Text16 title={'Đơn Hàng'.toLocaleUpperCase()} />
             <Flex flexDir='column' gap='15px' >
                 <BoxRadius flex='1' padding='4px 8px' borderRadius='8px' >
                     <Grid

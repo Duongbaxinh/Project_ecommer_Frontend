@@ -6,8 +6,7 @@ export const totalPrice = (products) => {
 }
 export const totalDiscount = (products) => {
     const totalDiscount = products.reduce((total, product) => {
-        console.log('check product discount---------', product.discount)
-        return total + product.discount
+        return total + (product.product_price * product.product_discount) / 100
     }, 0)
     return totalDiscount
 }
@@ -27,7 +26,6 @@ export const finalPriceCart = (carts, shipping) => {
 }
 export const totalPriceCart = (carts) => {
     const totalValue = carts.reduce((total, cart) => {
-        console.log('check quantiti count  :::: ', cart)
         return total + cart.product_id.product_price * cart.quantity_count
     }, 0)
     return totalValue

@@ -1,16 +1,14 @@
+import { ChakraProvider } from '@chakra-ui/react';
+import {
+  QueryClient,
+  QueryClientProvider
+} from '@tanstack/react-query';
+import './index.css'
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { ChakraProvider } from '@chakra-ui/react';
 import { themeCustom } from './theme';
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const queryClient = new QueryClient()
 

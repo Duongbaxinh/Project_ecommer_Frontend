@@ -1,17 +1,22 @@
 import { Divider, Flex, Image } from '@chakra-ui/react';
 import React from 'react';
 import BoxRadius from '../../../components/micro/BoxRadius/BoxRadius';
-import ListSpecial from '../../../components/middle/ListSpecial';
 import { Text14 } from '../../../styles/mixin/TextCustom';
 import { COLOR } from '../../../theme/webColor';
 import { BORDER_WIDTH, PADDING, POSITION } from '../../../theme/webFoundation';
 
 
-function OverviewProduct({ product, bg, onShowBackground, changePosition }) {
+function OverviewProduct({ product, bg, onShowBackground, detailHeight, height, width }) {
     if (!product) return <h1>Loading...</h1>
-
+    const scroll = height > 90 && height < detailHeight - 350 && width >= 1280;
     return (
-        <BoxRadius padding='0' maxW='350px' position={changePosition ? 'fixed' : "absolute"} left='60px' top={changePosition ? '10px' : ''}>
+        <BoxRadius
+            padding='0'
+            maxW='350px'
+            height='fit-content'
+
+
+        >
             <BoxRadius padding={PADDING.all16}>
                 <Flex {...POSITION.flexColumn()} gap='5px'>
                     <BoxRadius padding='5px'
@@ -22,15 +27,16 @@ function OverviewProduct({ product, bg, onShowBackground, changePosition }) {
                             h='368px' />
                     </BoxRadius>
                     <Flex justifyContent='flex-start' gap='5px'>
-                        {product.images.map((image) => (
+                        {product.product_images.map((image) => (
                             <BoxRadius padding={PADDING.all8}
+                                cursor='pointer'
                                 maxW='43px'
-                                borderWidth={`${bg === image.image_url ? BORDER_WIDTH.bw2 : BORDER_WIDTH.bw1}`}
-                                borderColor={`${bg === image.image_url ? COLOR.blue[200] : COLOR.grey[200]}`}
-                                onMouseOver={() => onShowBackground(image.image_url)}
-                                onClick={() => onShowBackground(image.image_url)}
+                                borderWidth={`${bg === image ? BORDER_WIDTH.bw2 : BORDER_WIDTH.bw1}`}
+                                borderColor={`${bg === image ? COLOR.blue[200] : COLOR.grey[200]}`}
+                                onMouseOver={() => onShowBackground(image)}
+                                onClick={() => onShowBackground(image)}
                             >
-                                <Image src={image.image_url} />
+                                <Image src={image} />
                             </BoxRadius>
 
                         ))}

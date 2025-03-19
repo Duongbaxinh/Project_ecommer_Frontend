@@ -12,11 +12,11 @@ import { useScrollPosition } from '../../hooks/useScroll';
 
 function SideBar(props) {
     const theme = useTheme()
-    const changePosition = useScrollPosition()
+    const { changePosition, height, width } = useScrollPosition()
     return (
         <BoxRadius
-            position={changePosition ? 'fixed' : "absolute"}
-            top={changePosition ? '10px' : ''}
+            position={changePosition && width >= 1280 ? 'fixed' : "absolute"}
+            top={changePosition && width >= 1280 ? '10px' : ''}
             backgroundColor={theme.colors.grey[100]}
             h='95vh'
             maxH='100vh'

@@ -36,7 +36,7 @@ function CardProductFull({ product_name, product_price, product_thumbnail, produ
                     <StarIcon w='10px' color={theme.colors.yellow[200]} />
                     <StarIcon w='10px' color={theme.colors.yellow[200]} />
                 </Flex>
-                <Price product_price={product_price.toLocaleString("vi-VN")} />
+                <Price product_price={product_price} />
             </Flex>
             <Text10 title={'giao thứ 2, 19/02'} color={theme.colors.grey[400]} />
 

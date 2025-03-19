@@ -1,54 +1,115 @@
-import { SCREEN_URL } from "../libs/constants"
-import { CartPage, HomePage, DetailProductPage, PaymentPage, OrderPage } from "../pages"
+import { SCREEN_URL } from "../libs/constants";
+import {
+  CartPage,
+  HomePage,
+  DetailProductPage,
+  PaymentPage,
+  OrderPage,
+  DashBoard,
+  ManageProduct,
+} from "../pages";
+import ManageUser from "../pages/ManageUser";
+import UpdateUser from "../pages/UpdateUser";
+import UserDetail from "../pages/UserDetail";
 
 export const layoutRoutes = [
-    {
-        path: SCREEN_URL.HOME,
-        component: HomePage,
-        title: 'home',
-        isSidebar: true,
-        isHeader: true,
-        isFooter: true,
-        isPrivate: false,
-        padding: '0 80px'
-    },
-    {
-        path: SCREEN_URL.PAYMENT,
-        component: PaymentPage,
-        isSidebar: false,
-        isHeader: true,
-        isFooter: true,
-        isPrivate: true,
-        padding: '0 80px'
-    },
-    {
-        path: SCREEN_URL.CART,
-        component: CartPage,
-        title: 'cart',
-        isSidebar: false,
-        isHeader: true,
-        isFooter: true,
-        isPrivate: true,
-        padding: '0 10px'
-    },
-    {
-        path: SCREEN_URL.DETAILPRODUCT,
-        component: DetailProductPage,
-        title: 'detailProduct',
-        isSidebar: false,
-        isHeader: true,
-        isFooter: true,
-        isPrivate: false,
-        padding: '0 10px'
-    },
-    {
-        path: SCREEN_URL.ORDER,
-        component: OrderPage,
-        title: 'detailProduct',
-        isSidebar: false,
-        isHeader: true,
-        isFooter: true,
-        isPrivate: true,
-        padding: '0 10px'
-    }
-]
+  {
+    path: SCREEN_URL.HOME,
+    component: HomePage,
+    title: "home",
+    isSidebar: true,
+    isHeader: true,
+    isFooter: true,
+    isPrivate: false,
+    padding: "0 80px",
+  },
+  {
+    path: SCREEN_URL.PAYMENT,
+    component: PaymentPage,
+    isSidebar: false,
+    isHeader: true,
+    isFooter: true,
+    isPrivate: false,
+    padding: "0 80px",
+  },
+  {
+    path: SCREEN_URL.CART,
+    component: CartPage,
+    title: "cart",
+    isSidebar: false,
+    isHeader: true,
+    isFooter: true,
+    isPrivate: false,
+    padding: "0 10px",
+  },
+  {
+    path: SCREEN_URL.DETAILPRODUCT,
+    component: DetailProductPage,
+    title: "detailProduct",
+    isSidebar: false,
+    isHeader: true,
+    isFooter: true,
+    isPrivate: false,
+    padding: "0 10px",
+  },
+  {
+    path: SCREEN_URL.ORDER,
+    component: OrderPage,
+    title: "detailProduct",
+    isSidebar: false,
+    isHeader: true,
+    isFooter: true,
+    isPrivate: false,
+    padding: "0 10px",
+  },
+  {
+    path: SCREEN_URL.DASHBOARD,
+    component: DashBoard,
+    title: "dashboard",
+    isSidebar: false,
+    isHeader: true,
+    isFooter: true,
+    isPrivate: false,
+    padding: "0 10px",
+  },
+  {
+    path: SCREEN_URL.MANAGEPRODUCT,
+    component: ManageProduct,
+    title: "manageproduct",
+    isSidebar: false,
+    isHeader: true,
+    isFooter: true,
+    isPrivate: false,
+    padding: "0 10px",
+  },
+  {
+    path: SCREEN_URL.MANAGEUSER,
+    component: ManageUser,
+    title: "manageruser",
+    isSidebar: false,
+    isHeader: true,
+    isFooter: true,
+    isPrivate: true,
+    padding: "0 10px",
+  },
+  {
+    path: SCREEN_URL.USERDETAIL,
+    component: UserDetail,
+    title: "userDetail",
+    isSidebar: false,
+    isHeader: true,
+    isFooter: true,
+    isPrivate: true,
+    padding: "0 10px",
+  },
+  {
+    path: SCREEN_URL.UPDATEUSER,
+    component: UpdateUser,
+    title: "updateUser",
+    isSidebar: false,
+    isHeader: true,
+    isFooter: true,
+    isPrivate: true,
+    padding: "0 10px",
+  },
+];

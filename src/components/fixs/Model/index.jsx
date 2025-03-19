@@ -1,10 +1,8 @@
 import {
-    Button,
     Modal,
     ModalBody,
     ModalCloseButton,
     ModalContent,
-    ModalFooter,
     ModalHeader,
     ModalOverlay
 } from '@chakra-ui/react';
@@ -14,13 +12,11 @@ import Register from '../../Auth/Register';
 function Model({ isOpen, onOpen, onClose }) {
     const [auth, setAuth] = useState(true)
     const handleLogin = () => {
-        console.log('run at here')
         setAuth(true)
     }
     const handleRegister = () => {
         setAuth(false)
     }
-    console.log('check authentication ::::: ', auth)
     return (
         <>
             <Modal isOpen={isOpen} onClose={onClose}>
@@ -29,7 +25,7 @@ function Model({ isOpen, onOpen, onClose }) {
                     <ModalHeader>Modal Title</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        {auth ? <Login onRegister={handleRegister} /> : <Register onRegister={handleLogin} />}
+                        {auth ? <Login onRegister={handleRegister} onClose={onClose} /> : <Register onLogin={handleLogin} onClose={onClose} />}
                     </ModalBody>
                 </ModalContent>
             </Modal>
